@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +9,11 @@ public class PlayerController : MonoBehaviour
     Animator playerAnimator;
 
     public GameObject gameOverImage;
+    public GameObject gameOverUI;
+
+    public TextMeshProUGUI timeText;
+
+    public TextMeshProUGUI score;
 
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
@@ -40,6 +47,8 @@ public class PlayerController : MonoBehaviour
             nextJumpTime = Time.timeSinceLevelLoad + jumpFrequency;
             Jump();
         }
+
+        WriteCurrentTime();
     }
 
     void HorizontalMove()
@@ -75,14 +84,40 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheckPosition.position, groundCheckRadius, groundLayer);
         playerAnimator.SetBool("isGrounded", isGrounded);
-
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Door")
+        if (collision.gameObject.CompareTag("Door"))
         {
             gameOverImage.SetActive(true);
-        }   
+
+            //Wait for 2 seconds
+            StartCoroutine(WaitAndLoadNextScene(2f));
+
+
+            SceneTransitionManager.instance.LoadNextScene();
+
+        }
+        if(collision.gameObject.CompareTag("GameOver"))
+        {
+            Time.timeScale = 0;
+            score.text = "YOUR SCORE: " + timeText.text;
+            gameOverUI.SetActive(true);
+        }
+    }
+
+    IEnumerator WaitAndLoadNextScene(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SceneTransitionManager.instance.LoadNextScene();
+    }
+
+    void WriteCurrentTime()
+    {
+        float time = Time.timeSinceLevelLoad;
+        int minutes = (int)(time / 60);
+        float seconds = time % 60;
+        timeText.text = $"{minutes}:{seconds:F2}";
     }
 }

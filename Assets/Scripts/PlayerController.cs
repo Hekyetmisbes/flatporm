@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverImage;
     public GameObject gameOverUI;
 
+    public MenuController menuController;
+
     public TextMeshProUGUI timeText;
 
     public TextMeshProUGUI score;
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
         WriteCurrentTime();
     }
+
 
     void HorizontalMove()
     {
@@ -92,25 +95,15 @@ public class PlayerController : MonoBehaviour
         {
             gameOverImage.SetActive(true);
 
-            //Wait for 2 seconds
-            StartCoroutine(WaitAndLoadNextScene(2f));
-
-
             SceneTransitionManager.instance.LoadNextScene();
 
         }
         if(collision.gameObject.CompareTag("GameOver"))
         {
+            gameOverUI.SetActive(true);
             Time.timeScale = 0;
             score.text = "YOUR SCORE: " + timeText.text;
-            gameOverUI.SetActive(true);
         }
-    }
-
-    IEnumerator WaitAndLoadNextScene(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        SceneTransitionManager.instance.LoadNextScene();
     }
 
     void WriteCurrentTime()

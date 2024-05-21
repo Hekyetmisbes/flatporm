@@ -7,7 +7,11 @@ public class MusicManager : MonoBehaviour
     public AudioClip menuMusic;
     public AudioClip[] levelMusicClips;
     private AudioSource audioSource;
-    private float musicTime;
+
+    private void Update()
+    {
+        ChangeMusic();
+    }
 
     private void Awake()
     {
@@ -28,7 +32,6 @@ public class MusicManager : MonoBehaviour
         if (audioSource.clip != menuMusic)
         {
             audioSource.clip = menuMusic;
-            audioSource.time = 0;
             audioSource.Play();
         }
     }
@@ -39,16 +42,15 @@ public class MusicManager : MonoBehaviour
         {
             int randomIndex = Random.Range(0, levelMusicClips.Length);
             audioSource.clip = levelMusicClips[randomIndex];
-            audioSource.time = musicTime;
             audioSource.Play();
         }
     }
 
-    private void Update()
+    public void ChangeMusic()
     {
-        if (audioSource.isPlaying)
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            musicTime = audioSource.time;
+            PlayLevelMusic();
         }
     }
 }

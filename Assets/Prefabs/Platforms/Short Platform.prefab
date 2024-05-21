@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1193332568298745066}
   - component: {fileID: 345752803139445686}
-  - component: {fileID: 6869764927874127729}
+  - component: {fileID: 3004726735276107463}
   m_Layer: 3
   m_Name: Short Platform
   m_TagString: Ground
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &6869764927874127729
+--- !u!61 &3004726735276107463
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

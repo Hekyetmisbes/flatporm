@@ -43,7 +43,7 @@ public class SceneTransitionManager : MonoBehaviour
         }
         else
         {
-            return null; // No more scenes to load
+            return null;
         }
     }
 }
